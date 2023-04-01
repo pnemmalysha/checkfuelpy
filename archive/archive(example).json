@@ -1,0 +1,20 @@
+[
+    {
+        "data": 0,
+        "odometer": 1,
+        "input_litres": 2,
+        "fuel_consumption_displayed": 3,
+        "fuel_consumption_real": 4,
+        "photo": 5,
+        "coordinates": 6
+    },
+    {
+        "data": 100,
+        "odometer": 101,
+        "input_litres": 102,
+        "fuel_consumption_displayed": 103,
+        "fuel_consumption_real": 104,
+        "photo": 105,
+        "coordinates": 106
+    }
+]
