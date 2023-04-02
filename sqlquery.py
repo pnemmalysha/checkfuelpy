@@ -18,7 +18,7 @@ class TableManager:
     def create_table(self):
         sqlcreatetable = f'''CREATE TABLE IF NOT EXISTS {self.tablename} (
         input_id INTEGER PRIMARY KEY,
-        data INTEGER,
+        data REAL,
         odometer INTEGER,
         input_litres REAL,
         fuel_consumption_displayed REAL,
@@ -35,17 +35,23 @@ class TableManager:
         return dosqlcode(sqldroptable)
 
     @try_except
-    def add_row(self):
+    def add_row(self, data: float = 1680453776.0000000,
+                odometer: int = 0,
+                input_litres: float = 0,
+                fuel_consumption_displayed: float = 0,
+                fuel_consumption_real: float = 0,
+                photo: str = 'No',
+                coordinates: str = 'Nowhere'):
         sqladdrow = f'''INSERT INTO {self.tablename} (data, odometer,
                         input_litres, fuel_consumption_displayed,
                         fuel_consumption_real, photo, coordinates) VALUES (
-                            80012023,
-                            801,
-                            802,
-                            803.803,
-                            804.804,
-                            'http://80',
-                            'Анапа80'
+                            {data},
+                            {odometer},
+                            {input_litres},
+                            {fuel_consumption_displayed},
+                            {fuel_consumption_real},
+                            "{photo}",
+                            '{coordinates}'
                             );
                     '''
         return dosqlcode(sqladdrow)

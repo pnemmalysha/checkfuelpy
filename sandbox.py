@@ -33,17 +33,42 @@ x = sqlquery_no_class.droptable()
 
 # Создаю экземпляр класса TableManager и делаю всё как царь 
 import sqlquery
+import time
+import random
 
-a = sqlquery.TableManager('shittable')
+a = sqlquery.TableManager()
+#b = sqlquery.TableManager('shittable')
+
+def p():
+    for i in a.select_all():
+        print(i)
 
 a.create_table()
 a.add_row()
 a.del_all_row()
 a.del_row()
-a.drop_table()
+#a.drop_table()
 a.select_all()
 a.tablename
 
-a.del_row()
-for i in a.select_all():
-    print(i)
+a.add_row(data = time.time(),
+          odometer = 200055,
+          input_litres = 34.12,
+          fuel_consumption_displayed = 10.6,
+          fuel_consumption_real = 13.4,
+          photo = 'nofotohere',
+          coordinates='Far Far Away 13',)
+
+def random_row_gen(k=10):
+    for i in range(k):
+        a.add_row(data = time.time()+i*1000+random.randint(1,100),
+                  odometer = 200055+i*100+random.randint(1,100),
+                  input_litres = 25.0+random.randint(1,25),
+                  fuel_consumption_displayed = 7+random.randint(1,100)/10,
+                  fuel_consumption_real = 9+random.randint(1,100)/10,
+                  photo = 'nofotohere'+str(random.randint(1,1000)),
+                  coordinates='Far Far Away '+str(random.randint(1,1000)),)
+
+random_row_gen()
+
+p()
