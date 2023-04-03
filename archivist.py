@@ -25,8 +25,18 @@ def addtoarchive(add: dict) -> None:
 
 
 def dosqlcode(sqlcode: str) -> list:
+    """Connect to SQLite DB, execute code, return fetch as list"""
     with sqlite3.connect(archivedbfile) as con:
         cur = con.cursor()
         cur.execute(sqlcode)
         contents = cur.fetchall()
+        return contents
+
+
+def dosqlcodefetchone(sqlcode: str) -> tuple:
+    """Connect to SQLite DB, execute code, return one fetch as tuple"""
+    with sqlite3.connect(archivedbfile) as con:
+        cur = con.cursor()
+        cur.execute(sqlcode)
+        contents = cur.fetchone()
         return contents

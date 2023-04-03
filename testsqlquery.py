@@ -1,18 +1,19 @@
 '''
-SQL queries I need.
+SQL queries I need based on testarchivist.
 '''
 
-from archivist import dosqlcode, dosqlcodefetchone
+import testarchivist
 from decorators import try_except
 
 
-class TableManager:
+class TestTableManager:
     def __init__(self, table: str = 'inputs') -> None:
         self.tablename = table
         self.whoisagoodboy = 'You are a good boy!'
+        self.arch_obj = testarchivist.SQLArchivist()
 
     def __repr__(self) -> str:
-        return f'TableManager for this table: "{self.tablename}"'
+        return f'TestTableManager for this table: "{self.tablename}"'
 
     @try_except
     def create_table(self) -> None:
@@ -28,13 +29,13 @@ class TableManager:
         coordinates TEXT
         );
         '''
-        dosqlcode(sqlcreatetable)
+        self.arch_obj.dosqlcode(sqlcreatetable)
 
     @try_except
     def drop_table(self) -> None:
         """Drop the table"""
         sqldroptable = f'''DROP TABLE IF EXISTS {self.tablename}'''
-        dosqlcode(sqldroptable)
+        self.arch_obj.dosqlcode(sqldroptable)
 
     @try_except
     def add_row(self, data: float = 1680453776.0000000,
@@ -57,31 +58,31 @@ class TableManager:
                             '{coordinates}'
                             );
                     '''
-        dosqlcode(sqladdrow)
+        self.arch_obj.dosqlcode(sqladdrow)
 
     @try_except
     def select_all(self) -> list:
         """Select all rows from table; return list of tuples"""
         sqlselect = f'''SELECT * FROM {self.tablename};'''
-        return dosqlcode(sqlselect)
+        return self.arch_obj.dosqlcode(sqlselect)
 
     @try_except
     def del_row(self, k: int = 0) -> None:
         """Delete the specified row from table; default row=0 i.e. do nothing"""
         sqldelrow = f"""DELETE FROM {self.tablename} WHERE input_id = {k};"""
-        dosqlcode(sqldelrow)
+        self.arch_obj.dosqlcode(sqldelrow)
 
     @try_except
     def del_all_row(self) -> None:
         """Delete all rows, i.e. clear the table"""
         sqldelallrow = f'''DELETE FROM {self.tablename};'''
-        dosqlcode(sqldelallrow)
+        self.arch_obj.dosqlcode(sqldelallrow)
 
     @try_except
     def custom_sql_query(self, sql_query) -> list:
         """Send your own SQL query; return fetch all list"""
         sql_query = sql_query
-        return dosqlcode(sql_query)
+        return self.arch_obj.dosqlcode(sql_query)
 
     @try_except
     def select_last(self) -> tuple:
@@ -89,7 +90,7 @@ class TableManager:
         sqlselect = f'''SELECT * FROM {self.tablename}
                         ORDER BY input_id DESC LIMIT 1;
                     '''
-        return dosqlcodefetchone(sqlselect)
+        return self.arch_obj.dosqlcodefetchone(sqlselect)
 
     @try_except
     def select_max(self) -> tuple:
@@ -98,4 +99,4 @@ class TableManager:
                         WHERE input_id = (SELECT MAX(input_id)
                         FROM {self.tablename});
                     '''
-        return dosqlcodefetchone(sqlselect)
+        return self.arch_obj.dosqlcodefetchone(sqlselect)
